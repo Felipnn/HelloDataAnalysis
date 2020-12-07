@@ -1,6 +1,49 @@
 1.Data Preprocessing
 
+a. First at all we need to import all of those libreraries we need in order to deploy a proper project:
+
+import numpy as np
+import pandas as pd
+import matplotlib as plt
+import scipy.stats
+
+b. Import the data(for instance a csv document):
+
+df= pd.read_csv('hello.csv')
+
+c. To get rid of variables, which lacks of some values:
+
+There are two options when it comes to fulfill this requirement, to delete info or to replace it. 
+
+#
+
+Before we proceed to manage the following steps, we need to make sure that we won't overlook some data that being different to np.nan mimic it:
+df.replace(x,np.nan,inplace= True)
+  being x = '-',0, among others.
+#
+
+In order to make up one mind regarding which option to choose, we need firstly to count the number of values that we missed:
+
+for column in df.columns.values.tolist():
+    print(column)
+    print(df[column].isnull().value_counts())
+    print('')
+
+...The result of this code will be a list with the name of the different columns followed by the a summary of its values in the following fashion:
 
 
-a. To get rid of variables, which lacks of some values:
+*Import picture*
 
+Otherwise we could directly delete all those columns which missed values outweighted the non-missed values.
+
+drop= []
+for column in df.columns.values.tolist():
+    if df[column].isnull().value_counts().idxmax() == True:
+        print(column)
+        drop.append(str(column))
+        df.drop(drop,axis=1,inplace=True)
+        
+...The result of this code will be a our data with those columns 
+
+
+ 
