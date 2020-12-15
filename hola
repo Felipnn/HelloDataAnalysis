@@ -22,7 +22,10 @@ df.replace(x,np.nan,inplace= True)
   being x = '-',0, among others.
 #
 
+
 In order to make up one mind regarding which option to choose, we need firstly to count the number of values that we missed:
+
+df.isnull().any() provides us some insight about the presence or absense of non assigned number in every column
 
 for column in df.columns.values.tolist():
     print(column)
@@ -31,10 +34,28 @@ for column in df.columns.values.tolist():
 
 ...The result of this code will be a list with the name of the different columns followed by the a summary of its values in the following fashion:
 
-
 *Import picture*
 
-Otherwise we could directly delete all those columns which missed values outweighted the non-missed values.
+We can achieve the same result by writting the following line of code:
+
+df.isnull().sum()
+
+Therefore, we have both ways for desplaying the sum of all nul values per column.
+
+1. Delete information:
+
+df.dropna(subset=''name of the column we want to drop'', axis=0/1,inplace= True/False,thresh=number)
+
+
+* thresh means the threshold of minimal amount of values that a column or row must have in order to not be dropped.
+* If you want to drop more than one column/row, you should write their names in a list and then imput this last into the line of code.
+
+If we delete a row, index of this data should be reset by using the following line of code:
+
+df.reset_index(drop=True, inplace= True)
+
+
+Otherwise we could directly delete all or those columns which missed values outweight the non-missed values.
 
 drop= []
 for column in df.columns.values.tolist():
@@ -43,7 +64,117 @@ for column in df.columns.values.tolist():
         drop.append(str(column))
         df.drop(drop,axis=1,inplace=True)
         
-...The result of this code will be a our data with those columns 
+df.reset_index(drop=True, inplace= True)
+        
+...The result of this code will be our data without those columns & the index reseted.
+
+2. Replace information:
+
+The second option is to replace missing values (x) by a new one(y) using the following line of code:
+
+df.replace(x,y,inplace=Tue)
+
+Which should be the new value? We should consider the type of the variable (df.dtypes), for instance if we are working with categorical data, 
+
+the most fitted information should be ''the most frequent value'', if we work with numerical values, it could be the mean (df['column'].mean()) or the median (df['column'].median()).
+
+3.Fill with current information:
+
+df.fillna(method='ffill'/'bfill',axis=0/1,inplace=True/False)
+
+or
+
+df.fillna(x,axis=0/1,inplace=True/False)
+
+being x the value we want to replace for every np.nan value
+
+if we want to use a specifical method in every column, we can follow the following step:
+
+df.fillna({'Column1':value1,'Column2':value2},inplace=True/False)
+
+d. Get rid of duplicated data:
+
+df.duplicated().sum() provides us how many duplicated in total there are in our current data. If we erase ''sum()'' from this code, we can see a boolean regarding any single row of information.
+
+If we can delete the duplicated values, so we apply the following code:
+
+df.drop_duplicated()
+
+and then we reset the index like we did before:
+
+df.reset_index(drop=True,inplace=True)
+
+e.Detect outliers:
+
+*With boxplot*
+
+f.To modify name of columns or values:
+
+In pandas we can can work with string type objects, so there are available all of those methods we worked with in python, for instance:
+
+df.column.str.strip()
+df.column.str.rstrip() or df.column.str.lstrip()
+dp['City']=dp['City'].str.capitalize()
+dp['City']=dp['City'].str.replace(x,y)
+dp['City']=dp['City'].str.lower()
+
+among others...
+
+g. To convert datatypes:
+
+Sometimes the present data is seted in a datatype that doesn't fit with the datatype we would expect to work with, for instance: strings in the field of ages, etc.
+
+It is really easy to get rid of this little troubling problem, so by writing the following piece of code:
+
+df[column_name]=df[column_name].astype('x')
+
+  where x could be float, int or str.
+
+
+It is really worthy to convert priorly the data in order to make sure about the nature of the data we are working with, so we avoid stupids misstakes.
+
+h. To normalize the data:
+
+It is a very important step to decribe these different varaibles in a common and thus in a linear regression model or whichever model we are deploying, 
+
+
+those varaibles described with higher values do not influence the model in an overwhelming way with respect to other variables described with lower values.
+
+One way to do this is by converting evry variable's value into a range from 0 to 1:
+
+a. Simple Feature Scaling:
+
+Xnew = Xold/ Xmax; in terms of python: df[column]= df[column]/ df[column].max()
+
+So we reassing every value in one column for the quocient between the prior value in that column and the maximal value in the aforementioned column.
+
+b. Min-Max:
+
+Xnew=(Xold-Xmin)/(Xmax-Xmin);in terms of python:df[column]= (df[column]-df[column].min())/ (df[column].max()-df[column.min())
+
+So we reassing every value in one column for the quocient between all these variables, lol.
+
+c. Z-score(L):
+
+Xnew= (Xold-mean)/S.D. ; in terms of python: df[column]= (df[column] - df[column].mean())/df[column].std()
+
+It is safer to work with a. or b. in order to get a value in the range between 0 and 1, because sometimes the mean is far higher than the old value, so you could get a negative velue.
+
+
+If you are willing to proceed all columns at a time, so you can use the following piece of code:
+
+for column in df.columns:
+  df[column] = df[column]... And then you fulfill the code in order to achieve the approach you are willing to use.
+   
+  
+
+
+
+
+
+
+
+
 
 
  
