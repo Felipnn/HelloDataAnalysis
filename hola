@@ -4,7 +4,7 @@ a. First at all we need to import all of those libreraries we need in order to d
 
 import numpy as np
 import pandas as pd
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import scipy.stats
 
 b. Import the data(for instance a csv document):
@@ -106,7 +106,40 @@ df.reset_index(drop=True,inplace=True)
 
 e.Detect outliers:
 
-*With boxplot*
+It is important to get rid of all of the outliers in every one of the variables.
+
+e1. First at all: Display a boxplot.
+  
+  plt.boxplot(df['column'],vert=False)
+  plt.show()
+
+e2. Define some important variables:
+
+  Q1=df['column'].quantile(0.25)
+  Q3=df['column'].quantile(0.75)
+  IQR=Q3-Q1
+  median=df['column'].median()
+  minimal_value=df['column'].min()
+  maximal_value=df['column'].max()
+  left_whisker= (Q1-1.5*IQR); if this value is < minimal_value, then left_whisker = minimal_value
+  right_whisker= (Q3+1.5*IQR); if this value is > maximal_value, then right_whisker = maximal_value
+
+e3. What are outliers?
+
+  Outliers are all those values that go beyond the whiskers
+
+e4. How to get rid of them?
+
+  We can get rid of them by applying the following line of code:
+  
+  df_withoutoutliers= df.loc[(df['column'] >= left_whisker) & (df['column'] <= right_whisker)] 
+
+e5. We check if there are remaining outliers:
+  
+  plt.boxplot(jeje['column'],vert=False)
+  plt.show()
+
+  ...If so, we have to repet the process.
 
 f.To modify name of columns or values:
 
@@ -186,7 +219,21 @@ Then we build ap an array with len(bins-1) strings (objects in pandas):
 Finally we make the binning:
   
   dp['Data-binned']=pd.cut(df['Data'],bins,labes=group_names,include_lowest=True)
- 
+
+
+i2. Getting dummie variables:
+
+In other words, the process by which we get numerical variables from categorical ones. The presence of one condition is codified as an one and the lack of that one is codified as an zero. 
+
+The line of code is the following one: dummies_variables = pd.get_dummies(df['column'],dtype='int64'/'float64'/'object') ; the process by which this code generate this two dummie variables is called 'one-hot' encoding.
+
+The result is two columns, that are needed to concat to the prior data like follows: pd.concat([df,dummie_variables],axis=1). To drop the ''non dummie column'' is optional.
+
+Other more intuitive way to concat both new columns is the following one: df[['X','y']]=pd.get_dummies(df['column'])
+
+If we want to drop the 'prior non-dummie colummn' we can compute the following line of code: df.drop(['column'],axis=1,inplace=True)
+
+
 
   
 
