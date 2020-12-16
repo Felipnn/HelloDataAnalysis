@@ -142,19 +142,19 @@ those varaibles described with higher values do not influence the model in an ov
 
 One way to do this is by converting evry variable's value into a range from 0 to 1:
 
-a. Simple Feature Scaling:
+h1. Simple Feature Scaling:
 
 Xnew = Xold/ Xmax; in terms of python: df[column]= df[column]/ df[column].max()
 
 So we reassing every value in one column for the quocient between the prior value in that column and the maximal value in the aforementioned column.
 
-b. Min-Max:
+h2. Min-Max:
 
 Xnew=(Xold-Xmin)/(Xmax-Xmin);in terms of python:df[column]= (df[column]-df[column].min())/ (df[column].max()-df[column.min())
 
 So we reassing every value in one column for the quocient between all these variables, lol.
 
-c. Z-score(L):
+h3. Z-score(L):
 
 Xnew= (Xold-mean)/S.D. ; in terms of python: df[column]= (df[column] - df[column].mean())/df[column].std()
 
@@ -167,7 +167,28 @@ for column in df.columns:
   df[column] = df[column]... And then you fulfill the code in order to achieve the approach you are willing to use.
    
   
+i. To convert variables:
 
+i1.Binning:
+
+Process, by which are converted numeric variables into categoric ones. Therefore, it can improve the accuracy of some predictive modesl, specifically by reducing the non-linearity-noise allows to identify outliers as well as invalid values.
+
+It is really important to bear in mind that a lot of data will be lost by carrying this process out.
+
+First at al, we get the bins:
+  
+  bins=np.linspace(min_value,max_value,number_generated)
+
+Then we build ap an array with len(bins-1) strings (objects in pandas):
+  
+  group_names:['lower','moderate','higher'']
+
+Finally we make the binning:
+  
+  dp['Data-binned']=pd.cut(df['Data'],bins,labes=group_names,include_lowest=True)
+ 
+
+  
 
 
 
