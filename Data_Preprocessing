@@ -1,4 +1,4 @@
-1.Data Preprocessing
+###1.Data Preprocessing
 
 a. First at all we need to import all of those libreraries we need in order to deploy a proper project:
 
@@ -225,7 +225,7 @@ i2. Getting dummie variables:
 
 In other words, the process by which we get numerical variables from categorical ones. The presence of one condition is codified as an one and the lack of that one is codified as an zero. 
 
-The line of code is the following one: dummies_variables = pd.get_dummies(df['column'],dtype='int64'/'float64'/'object') ; the process by which this code generate this two dummie variables is called 'one-hot' encoding.
+The line of code is the following one: dummies_variables = pd.get_dummies(df['column'],dtype='int64'/'float64'/'object',drop_first=True) ; the process by which this code generate this two dummie variables is called 'one-hot' encoding.
 
 The result is two columns, that are needed to concat to the prior data like follows: pd.concat([df,dummie_variables],axis=1). To drop the ''non dummie column'' is optional.
 
