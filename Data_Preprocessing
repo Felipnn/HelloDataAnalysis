@@ -5,7 +5,7 @@ a. First at all we need to import all of those libreraries we need in order to d
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import scipy.stats
+import scipy.statsdrop
 
 b. Import the data(for instance a csv document):
 
@@ -49,7 +49,7 @@ df.dropna(subset=''name of the column we want to drop'', axis=0/1,inplace= True/
 
 * thresh means the threshold of minimal amount of values that a column or row must have in order to not be dropped.
 * If you want to drop more than one column/row, you should write their names in a list and then imput this last into the line of code.
-
+*rule of thumb: deleating >5% of all observations exert no problem with our data
 If we delete a row, index of this data should be reset by using the following line of code:
 
 df.reset_index(drop=True, inplace= True)
